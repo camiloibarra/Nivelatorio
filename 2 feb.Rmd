@@ -1,0 +1,286 @@
+---
+title: "hello_ggplot"
+author: "Camilo Ibarra"
+date: "2 de febrero de 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Mi primer markdown para ggplot
+
+##Configuraciones
+
+```{r misconf, include=FALSE}
+setwd("C:/Users/1061740041/Documents/GitHub")
+#Librerias para instalar
+#install.packages("tidyverse")
+#install.packages("treemap")
+#install.packages("openair")
+#install.packages("quantmod")
+#install.packages("readxl")
+#cargar librerias
+library("tidyverse")
+library("treemap")
+library("openair")
+library("quantmod")
+library("readxl")
+```
+
+#arrancando
+
+```{r gramatica, include=TRUE}
+##gramatica
+ggplot(data = diamonds,aes(x=carat,y=price))+
+  geom_point()+
+  stat_smooth(method = lm)+
+  scale_x_log10()+
+  scale_y_log10()
+```
+
+
+
+```{r resumenes}
+#str
+str(mpg)
+print("------------")
+#summary
+summary(mpg)
+#documentacion
+?mpg
+```
+
+## Tamaño del motor Vs. Eficiencia del carro
+
+Los motores m{as grandes presentan una menor eficiencia
+
+```{r grafico1}
+ggplot(data = mpg)+
+geom_point(mapping = aes(x=displ, y=hwy))+
+xlab("Tamaño del motor")+
+ylab("Eficiencia del carro en carretera")
+```
+
+##Numero de cilindros Vs. Millas por galon en carretera
+
+No parece decir mucho, a menor numero de cilindros tiene rangos de eficiencia superiores
+
+
+```{r grafico2}
+ggplot(data = mpg)+
+geom_point(mapping = aes(x=cyl, y=hwy))+
+xlab("numero de cilindros")+
+ylab("Eficiencia del carro en carretera")
+```
+
+
+
+Tipo de Carro Vs. Traccion
+
+```{r grafico3}
+ggplot(data = mpg)+
+geom_point(mapping = aes(x=class, y=drv))+
+xlab("tipo de carro")+
+ylab("traccion")
+```
+
+
+```{r grafico4}
+ggplot(data = mpg)+
+geom_point(mapping = aes(x=displ, y=hwy, color=class, size=cyl))+
+xlab("Tamaño del motor")+
+ylab("Eficiencia del carro en carretera")+
+  #vector de colores amphitone
+scale_color_manual(values=c("#A495D9", "#E55200", "#1E1713", "#98a03e","#F6ED28", "#534F8F", "#89fff7"))+
+#titulos de leyendas
+scale_color_discrete(name="Clases")+
+scale_size_continuous(name="Cilindros")
+
+```
+
+
+
+```{r grafico5}
+ggplot(data = mpg)+
+  #Alpha es un dregade
+geom_point(mapping = aes(x=displ, y=hwy, size=cyl,alpha=class))+
+xlab("Tamaño del motor")+
+ylab("Eficiencia del carro en carretera")+
+  #vector de colores amphitone
+scale_color_manual(values=c("#A495D9", "#E55200", "#1E1713", "#98a03e","#F6ED28", "#534F8F", "#89fff7"))+
+#titulos de leyendas
+ scale_size_continuous(name="Cilindros")
+#tamaños
+```
+
+
+
+
+
+```{r grafico6}
+ggplot(data = mpg)+
+#shape asigna formas
+geom_point(mapping = aes(x=displ, y=hwy, size=cyl,shape=class))+
+xlab("Tamaño del motor")+
+ylab("Eficiencia del carro en carretera")+
+  #vector de colores amphitone
+scale_color_manual(values=c("#A495D9", "#E55200", "#1E1713", "#98a03e","#F6ED28", "#534F8F", "#89fff7"))+
+#titulos de leyendas
+  scale_size_continuous(name="Cilindros")
+#tamaños
+```
+
+
+```{r grafico7}
+ggplot(data = mpg)+
+geom_point(mapping = aes(x=displ, y=hwy, color="blue"))+
+xlab("Tamaño del motor")+
+ylab("Eficiencia del carro en carretera")
+
+```
+
+
+```{r grafico8}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x=displ, y=hwy))+
+  facet_wrap(~class,nrow = 2)
+```
+
+
+```{r grafico9}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x=displ, y=hwy))+
+  facet_wrap(drv~cyl)
+```
+
+
+
+
+
+
+```{r grafico10}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x=displ, y=hwy))+
+  facet_grid(~cyl)
+```
+
+
+
+
+
+```{r grafico11}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x=drv, y=cyl))
+
+
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x=drv, y=cyl))+
+  facet_wrap(drv~.)
+
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x=drv, y=cyl))+
+  facet_wrap(.~cyl)
+```
+
+
+
+```{r grafico12}
+
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x=displ, y=hwy))
+
+ggplot(data = mpg)+
+  geom_smooth(mapping = aes(x=displ, y=hwy))
+
+ggplot(data = mpg)+
+  geom_smooth(mapping = aes(x=displ, y=hwy, linetype=drv))
+
+ggplot(data = mpg)+
+  geom_smooth(mapping = aes(x=displ, y=hwy, linetype=drv, color=drv))+
+  geom_point(mapping = aes(x=displ, y=hwy, colour=drv))
+
+ggplot(data = mpg)+
+  geom_smooth(mapping = aes(x=displ, y=hwy, linetype=drv, color=drv))
+
+
+ggplot(data = mpg, mapping = aes(x=displ, y=hwy))+
+  geom_point(mapping = aes(colour=class))+
+  geom_smooth()
+
+```
+
+
+Otros graficos
+
+
+```{r grafico13}
+ggplot(data = diamonds)+
+  geom_bar(mapping = aes(x=cut))
+
+ggplot(data = diamonds)+
+  stat_summary(mapping = aes(x=cut, y=depth), fun.ymin = min, fun.ymax = max, fun.y = median)
+
+ggplot(data = diamonds)+
+  geom_col(mapping = aes(cut,table))
+
+ggplot(data = diamonds)+
+  geom_bar(mapping = aes(x=cut, colour=cut))
+
+ggplot(data = diamonds)+
+  geom_bar(mapping = aes(x=cut, fill=cut))
+
+ggplot(data = diamonds)+
+  geom_bar(mapping = aes(x=cut, fill=clarity))
+
+ggplot(data = diamonds)+
+  geom_bar(mapping = aes(x=cut, fill=clarity),
+position="identity")
+
+
+ggplot(data = diamonds,mapping = aes(x=cut, fill=clarity))+
+  geom_bar(alpha=1/5, position="identity")
+```
+
+
+
+##Ejercicio bicicletas
+
+
+```{r datos bicicletas}
+daily_data <- read.csv("~/GitHub/day.csv", stringsAsFactors=FALSE)
+daily_data$Date=as.Date(daily_data$dteday)
+
+```
+
+
+
+
+
+
+```{r g1 bicicletas}
+ggplot(daily_data, aes(Date, cnt))+
+  geom_line()+
+  scale_x_date("month")+
+  ylab("total bicicletas alquiladas")
+  xlab("mes")
+
+```
+
+
+
+
+
+```{r g2 bicicletas}
+ggplot(daily_data, aes(Date, cnt))+
+  geom_line()+
+  scale_x_date("month")+
+  ylab("total bicicletas alquiladas")
+  xlab("mes")
+
+```
+
+
+
+
